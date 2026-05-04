@@ -1,0 +1,193 @@
+﻿@{
+    ViewData["Title"] = "Salary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+    /* 🔥 FULL PAGE BACKGROUND */
+    .salary-wrapper {
+        min-height: 100vh;
+        width: 100%;
+        padding: 60px 20px;
+        background: radial-gradient(circle at 20% 20%, #ff9a9e, transparent 35%), radial-gradient(circle at 80% 80%, #a18cd1, transparent 35%), linear-gradient(135deg, #1f1c2c, #928dab);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* 💎 Glass Form Card */
+    .form-container {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 50px 40px;
+        border-radius: 25px;
+        max-width: 430px;
+        margin: auto;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.3);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+        color: white;
+    }
+
+    /* Input Styling */
+    .form-control {
+        border-radius: 12px;
+       
+        background: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: white;
+    }
+
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.8);
+        }
+
+    /* Button Styling */
+    .salary-wrapper .btn-primary {
+        width: 100%;
+        padding: 14px;
+        border-radius: 15px;
+        border: none;
+        font-weight: bold;
+        background: linear-gradient(45deg, #ff6ec4, #7873f5);
+        transition: 0.3s;
+    }
+
+        .salary-wrapper .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+    /* 💰 Attractive Table */
+    .salary-table-wrapper {
+        margin-top: 70px;
+    }
+
+    .salary-table {
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        overflow: hidden;
+        color: black;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+        .salary-table thead {
+            background: linear-gradient(45deg, #ff6ec4, #7873f5);
+            text-transform: uppercase;
+        }
+
+        .salary-table th,
+        .salary-table td {
+            padding: 18px;
+            text-align: center;
+            border: none;
+        }
+
+        .salary-table tbody tr:nth-child(even) {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .salary-table tbody tr:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.01);
+            transition: 0.3s;
+        }
+
+</style>
+
+<div class="salary-wrapper">
+
+    <!-- 💼 Salary Filter Form -->
+    <div class="form-container text-center">
+        <h2 class="mb-4">💼 Salary Filter</h2>
+
+        <form>
+            <div class="mb-4 text-start">
+                <label class="form-label text-white">Salary Low</label>
+                <input type="number" class="form-control"
+                       placeholder="Enter minimum salary" id="inputlow">
+            </div>
+
+            <div class="mb-4 text-start">
+                <label class="form-label text-white">Salary High</label>
+                <input type="number" class="form-control"
+                       placeholder="Enter maximum salary" id="inputhigh" >
+            </div>
+
+            <button type="button" class="btn btn-primary" id="filterbtn">
+                🚀 Apply Filter
+            </button>
+        </form>
+    </div>
+
+    <!-- 💰 Salary Table -->
+    <div class="salary-table-wrapper container mt-5">
+        <h3 class="text-center mb-4 text-white">Employee Salary List</h3>
+
+        <div class="table-responsive">
+            <table class="table salary-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+                <tbody id="inputbody">
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        
+        $(document).ready(function () {
+
+            $("#filterbtn").click(function (e) {
+
+                debugger;
+                  e.preventDefault();
+              
+                var low = $("#inputlow").val();
+                var high = $("#inputhigh").val();
+
+                $.ajax({
+                    url: '/Employee/GetBySalary',
+                    type: 'GET',
+                    data: { low: low, high: high },
+
+                    success: function (response) {
+
+                        var table = "";
+
+                        $.each(response, function (index, item) {
+
+                            table += `<tr>
+                             <td>${item.id}</td>
+                            <td> ${item.name}</td>
+                            <td>${item.salary}</td>
+                             </tr>`;
+
+                        });
+
+                        $("#inputbody").html(table);
+                        $("#inputlow").val("");
+                        $("#inputhigh").val("");
+                    },
+
+                    error: function () {
+                        alert("Error aa gaya bhai");
+                    }
+
+                });
+
+            });
+        });
+        
+    </script>
+}

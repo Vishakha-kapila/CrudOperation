@@ -1,0 +1,419 @@
+﻿@{
+    ViewData["Title"] = "ProjectManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .page-title {
+        color: white;
+        font-weight: 700;
+    }
+
+    .card-custom {
+        border-radius: 15px;
+        background: white;
+    }
+
+    .btn-custom {
+        background: linear-gradient(45deg, #36d1dc, #5b86e5);
+        border: none;
+        color: white;
+        font-weight: 500;
+    }
+
+        .btn-custom:hover {
+            opacity: 0.9;
+        }
+
+    .table thead {
+        background: linear-gradient(45deg, #141e30, #243b55);
+        color: white;
+    }
+
+    .modal-header {
+        background: linear-gradient(45deg, #ff512f, #dd2476);
+        color: white;
+    }
+
+    .form-control:focus {
+        border-color: #764ba2;
+        box-shadow: 0 0 5px rgba(118, 75, 162, 0.5);
+    }
+
+    .card-custom {
+        border-radius: 18px;
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .table thead {
+        background: linear-gradient(45deg, #1e3c72, #2a5298);
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f2f6ff;
+        transform: scale(1.01);
+        transition: 0.2s ease-in-out;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+        padding: 14px;
+    }
+
+    .action-btn {
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 14px;
+    }
+
+    .btn-edit {
+        background: linear-gradient(45deg, #36d1dc, #5b86e5);
+        border: none;
+        color: white;
+    }
+
+    .btn-delete {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        border: none;
+        color: white;
+    }
+
+       
+
+
+</style>
+
+<div class="container mt-5">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-title">Project Management</h2>
+        <button type="button" class="btn btn-custom shadow"
+                data-bs-toggle="modal" data-bs-target="#exampleModal">
+            + Add Employee
+        </button>
+    </div>
+    <!--TABLE-->
+    <div class="card card-custom shadow-lg mt-4">
+        <div class="card-body p-0">
+
+            <table class="table table-hover text-center align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Class Name</th>
+                        <th>Roll No</th>
+                        <th>Age</th>
+                        <th>Salary</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-4 shadow">
+
+            <div class="modal-header">
+                <h5 class="modal-title">✨ Add / Edit Employee</h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form class="formset">
+
+                    <input type="hidden" id="empid" />
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Name</label>
+                            <input type="text" class="form-control" id="inputname">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Class Name</label>
+                            <input type="text" class="form-control" id="inputclassname">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Roll No</label>
+                            <input type="number" class="form-control" id="inputrollno">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Age</label>
+                            <input type="number" class="form-control" id="inputage">
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-semibold">Salary</label>
+                            <input type="number" class="form-control" id="inputsalary">
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-custom shadow" id="savebtn">
+                     Save Changes 
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+                  
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            loadData();
+
+            $("#savebtn").click(function () {
+
+                var Data = {
+                    id: $("#empid").val(),
+                    Name: $("#inputname").val(),
+                    ClassName: $("#inputclassname").val(),
+                    RollNo: $("#inputrollno").val(),
+                    Age: $("#inputage").val(),
+                    Salary: $("#inputsalary").val()
+                };
+
+                if (Data.Name == '') {
+                    alert("Enter the name First");
+                    return;
+                }
+
+                if (Data.ClassName == '') {
+                    alert("Enter the Classname first");
+                    return;
+                }
+
+                if (Data.RollNo == '') {
+                    alert("Enter the Rollno first");
+                    return;
+                }
+
+                if (Data.Age == "") {
+                    alert("Enter the age first");
+                    return;
+                }
+
+                if (Data.Age <= 18) {
+                    alert("Enter valid age");
+                    $("#inputage").val('');
+                    return;
+                }
+
+                if (Data.Salary == "") {
+                    alert("Enter the Salary first");
+                    return;
+                }
+
+                if (Data.Salary < 5000) {
+                    alert("Enter valid Salary");
+                    $("#inputsalary").val('');
+                    return;
+                }
+
+                var url = "";
+                var type = "";
+
+                if ($("#empid").val() == "") {
+                    url = "/Employee/Save";
+                    type = "POST";
+                }
+                else {
+                    url = "/Employee/Update";
+                    type = "PUT";
+                }
+
+                $.ajax({
+                    url: url,
+                    type: type,
+                    data: Data,
+                    success: function (response) {
+
+                        Swal.fire({
+                            title: "Success",
+                            text: "Data saved successfully",
+                            icon: "success"
+                        });
+
+                        $("#exampleModal").modal("hide");
+                        $(".formset")[0].reset();
+                        $("#empid").val("");
+
+                        loadData();
+                    },
+                    error: function () {
+
+                        Swal.fire({
+                            title: "Error",
+                            text: "Something went wrong",
+                            icon: "error"
+                        });
+
+                    }
+                });
+
+            });
+
+        });
+
+
+        //LOAD DATA
+
+        function loadData() {
+
+            $.ajax({
+                url: "/Employee/GetAll",
+                type: "GET",
+
+                success: function (response) {
+
+                    var row = "";
+
+                    if (response.length == 0) {
+
+                        row = `<tr>
+                                <td colspan="7">No Data Found</td>
+                               </tr>`;
+
+                    }
+
+                    else {
+
+                        $.each(response, function (index, item) {
+
+                            row += `<tr>
+
+                                <td>${item.id}</td>
+                                <td>${item.name}</td>
+                                <td>${item.className}</td>
+                                <td>${item.rollNo}</td>
+                                <td>${item.age}</td>
+                                <td>${item.salary}</td>
+
+                                <td>
+                                <button class="btn btn-warning editBtn" data-id="${item.id}">Edit</button>
+                                <button class="btn btn-danger deleteBtn" data-id="${item.id}">Delete</button>
+                                </td>
+
+                                </tr>`;
+                        });
+
+                    }
+
+                    $("tbody").html(row);
+
+                }
+
+            });
+
+        }
+
+
+        //DELETE
+
+        $(document).on("click", ".deleteBtn", function () {
+
+            var id = $(this).data("id");
+
+            Swal.fire({
+                title: "Are you sure?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes Delete"
+            })
+
+            .then((result) => {
+
+                if (result.isConfirmed) {
+
+                    $.ajax({
+
+                        url: "/Employee/Delete?id=" + id,
+                        type: "DELETE",
+
+                        success: function () {
+
+                            Swal.fire(
+                                "Deleted!",
+                                "Record deleted successfully",
+                                "success"
+                            );
+
+                            loadData();
+                        }
+
+                    });
+
+                }
+
+            });
+
+        });
+
+
+        //EDIT
+
+        $(document).on("click", ".editBtn", function () {
+
+            var id = $(this).data("id");
+
+            $.ajax({
+
+                url: "/Employee/GetById?id=" + id,
+                type: "GET",
+
+                success: function (data) {
+
+                    $("#empid").val(data.id);
+                    $("#inputname").val(data.name);
+                    $("#inputclassname").val(data.className);
+                    $("#inputrollno").val(data.rollNo);
+                    $("#inputage").val(data.age);
+                    $("#inputsalary").val(data.salary);
+
+                    $("#exampleModal").modal("show");
+
+                }
+
+            });
+
+        });
+
+    </script>
+}
