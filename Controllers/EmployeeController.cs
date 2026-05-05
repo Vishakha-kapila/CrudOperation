@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using crudpractice.Data;
+﻿using crudpractice.Data;
 using crudpractice.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace crudpractice.Controllers
@@ -13,10 +14,17 @@ namespace crudpractice.Controllers
         {
             _context = context;
         }
+        [AllowAnonymous]
+        public IActionResult Welcome() 
+        {
+            return View();
+        }
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
+        [Authorize]
         public IActionResult Salary()
         {
             return View();

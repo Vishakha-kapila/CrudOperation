@@ -82,26 +82,29 @@
 
             <!-- Navbar Links -->
             <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-center">
 
-                <ul class="navbar-nav ms-auto">
+    <li class="nav-item mx-2">
+        <a class="nav-link btn btn-outline-primary px-3"
+           href="@Url.Action("Index", "Employee")">
+            Home
+        </a>
+    </li>
 
-                    <li class="nav-item">
-                        <!-- ✅ Fixed extra quote -->
-                        <a class="btn btn-primary px-3 me-2"
-                           href="@Url.Action("Index", "Employee")">
-                            Home
-                        </a>
-                    </li>
+    <li class="nav-item mx-2">
+        <a class="nav-link btn btn-outline-secondary px-3"
+           href="@Url.Action("Salary", "Employee")">
+            Salary
+        </a>
+    </li>
 
-                    <li class="nav-item">
-                        <!-- ✅ Fixed extra quote -->
-                        <a class="btn btn-success px-3"
-                           href="@Url.Action("Salary", "Employee")">
-                            Salary
-                        </a>
-                    </li>
-
+</ul>
+              
                 </ul>
+                <!-- Right Side (Login/Register) -->
+                <div class="d-flex align-items-center">
+                    <partial name="_LoginPartial" />
+                </div>
 
             </div>
         </div>

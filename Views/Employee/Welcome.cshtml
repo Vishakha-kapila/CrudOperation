@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        min-height: 100vh;
+    }
+
+    .hero-section {
+        height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .hero-card {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 50px;
+        text-align: center;
+        width: 450px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        color: white;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .hero-card h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .hero-card p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+    .btn-group-custom {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .btn-custom {
+        padding: 12px 25px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+    .btn-login {
+        background: #00c9ff;
+        color: #fff;
+    }
+
+        .btn-login:hover {
+            background: #00a3cc;
+            transform: translateY(-3px);
+        }
+
+    .btn-register {
+        background: #ff6b81;
+        color: #fff;
+    }
+
+        .btn-register:hover {
+            background: #e55065;
+            transform: translateY(-3px);
+        }
+
+    .features {
+        margin-top: 25px;
+        font-size: 14px;
+        opacity: 0.85;
+    }
+
+    .dot {
+        height: 8px;
+        width: 8px;
+        background-color: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 3px;
+        animation: blink 1.5s infinite;
+    }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+    @@keyframes blink {
+        0%, 100% {
+            opacity: 0.2;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="hero-section">
+    <div class="hero-card">
+        <h1>👋 Welcome</h1>
+        <p>
+            Your CRUD + Identity System is Ready<br>
+            Secure • Fast • Modern
+        </p>
+
+        <div class="btn-group-custom">
+            <a href="/Identity/Account/Login" class="btn-custom btn-login">
+                Login
+            </a>
+
+            <a href="/Identity/Account/Register" class="btn-custom btn-register">
+                Register
+            </a>
+        </div>
+
+        <div class="features mt-4">
+            <p>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </p>
+            <p>Built with ASP.NET Core MVC</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Logout";
+}
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logout-card {
+        background: white;
+        padding: 50px;
+        border-radius: 20px;
+        text-align: center;
+        width: 420px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        animation: pop 0.5s ease-in-out;
+    }
+
+        .logout-card h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .logout-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+    .btn-logout {
+        background: #ff4757;
+        color: white;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .btn-logout:hover {
+            background: #e84118;
+            transform: translateY(-2px);
+        }
+
+    .success-text {
+        color: green;
+        font-weight: bold;
+    }
+
+    @@keyframes pop {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+</style>
+
+<div class="logout-card">
+    <h1>👋 Logout</h1>
+
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <p>Are you sure you want to logout?</p>
+
+        <form method="post" asp-area="Identity" asp-page="/Account/Logout">
+            <button type="submit" class="btn-logout" onclick="showAlert()">
+                Confirm Logout
+            </button>
+        </form>
+    }
+    else
+    {
+        <p class="success-text">✔ You have successfully logged out.</p>
+
+        <script>
+            alert("You are logged out successfully!");
+            setTimeout(() => {
+                window.location.href = "/Identity/Account/Login";
+            }, 2000);
+        </script>
+    }
+</div>
+
+<script>
+    function showAlert() {
+        alert("Logging you out...");
+    }
+</script>
